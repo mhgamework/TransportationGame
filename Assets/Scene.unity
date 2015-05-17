@@ -2058,7 +2058,7 @@ Transform:
   - {fileID: 1964654637}
   - {fileID: 1158669604}
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 0
 --- !u!4 &961699052 stripped
 Transform:
   m_PrefabParentObject: {fileID: 431476, guid: f8f0f2a7e1516524b852833e995dc81e, type: 2}
@@ -2359,7 +2359,7 @@ Transform:
   - {fileID: 1027953121}
   - {fileID: 1030107841}
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 1
 --- !u!114 &1060972698
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3339,7 +3339,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 434606, guid: 9221eacce6f0ef94898cf5aba0391d1b, type: 2}
       propertyPath: m_RootOrder
-      value: 6
+      value: 7
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 9221eacce6f0ef94898cf5aba0391d1b, type: 2}
@@ -3563,7 +3563,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 465376, guid: d03521eecf03c1c478b5cb06124dc7db, type: 2}
       propertyPath: m_RootOrder
-      value: 0
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 465376, guid: d03521eecf03c1c478b5cb06124dc7db, type: 2}
       propertyPath: m_LocalScale.x
@@ -3859,7 +3859,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 6
 --- !u!4 &1811481164 stripped
 Transform:
   m_PrefabParentObject: {fileID: 431476, guid: f8f0f2a7e1516524b852833e995dc81e, type: 2}
