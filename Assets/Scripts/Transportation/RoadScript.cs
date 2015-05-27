@@ -18,5 +18,16 @@ namespace Assets.Scripts.Transportation
             transform.localScale = new Vector3(1,1,dir.magnitude);
 
         }
+
+        public void RemoveRoad()
+        {
+            
+
+            GameObject.DestroyImmediate(gameObject);
+
+            // check the endpoints
+            EndpointA.RemoveIfUnused();
+            EndpointB.RemoveIfUnused();
+        }
     }
 }

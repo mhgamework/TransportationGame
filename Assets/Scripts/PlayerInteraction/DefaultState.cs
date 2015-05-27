@@ -18,7 +18,7 @@ namespace Assets.Scripts.Transportation
                     var cs = hit.collider.GetComponentInParent<ConnectorScript>();
                     if (cs)
                     {
-                        ps.ChangeState(new BuildRoadState(cs));
+                        ps.ChangeState(new BuildRoadState(cs, ps));
                         yield break;
                     }
 
@@ -30,7 +30,7 @@ namespace Assets.Scripts.Transportation
                 var road = ps.raycastMouseClick().Select(h => h.collider.GetComponentInParent<RoadScript>()).FirstOrDefault(n => n != null);
                 if (road)
                 {
-                    GameObject.Destroy(road.gameObject);
+                    road.RemoveRoad();
                     yield break;
                 }
             }
