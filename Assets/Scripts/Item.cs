@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using Assets.Model;
 using Assets.Scripts;
 using UnityEngine;
 using System.Collections;
@@ -8,9 +7,7 @@ using Random = UnityEngine.Random;
 
 public class Item : MonoBehaviour
 {
-
-
-
+    public bool FreeInWorld;
 
     // Use this for initialization
     void Start()
@@ -38,21 +35,28 @@ public class Item : MonoBehaviour
 
     void OnMouseUp()
     {
+        if (!FreeInWorld) return;
         Debug.Log("Click!");
         if (!Input.GetMouseButtonUp(0)) return;
 
         var p = LocalGameService.Get.Player;
-        if (!p.CanAdd(GetMItem())) return;
+        if (!p.CanPickup(GetItem())) return;
 
         if (!p.inPickupRange(transform)) return;
 
-        p.AddItems(GetMItem());
-        Destroy(gameObject);
+        p.Pickup(GetItem());
     }
 
-    public MItem GetMItem()
+    public Item GetItem()
     {
         if (!gameObject) throw new InvalidOperationException("Destroyed!");
-        return new MItem(MItemType.Wood);
+        return this;
     }
+
+
+    public GameObject GetModel()
+    {
+        return transform.FindChild("Model").gameObject;
+    }
+
 }

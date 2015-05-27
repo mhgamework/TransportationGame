@@ -1,5 +1,4 @@
 ﻿using System;
-using Assets.Model;
 using UnityEngine;
 using System.Collections;
 using Random = UnityEngine.Random;
@@ -10,8 +9,6 @@ public class PlayerScript : MonoBehaviour
     public float MoveSpeed = 3;
     public float PickupRange;
     public CartScript Cart;
-
-    public GameObject ItemPrefab;
 
 
     private Vector3? moveTarget;
@@ -76,15 +73,16 @@ public class PlayerScript : MonoBehaviour
 
 
 
-    public bool CanAdd(params MItem[] items)
+    public bool CanPickup(Item item)
     {
         if (Cart == null) return false;
-        return Cart.CanAdd(items);
+        return Cart.CanAdd(item);
     }
-    public void AddItems(params MItem[] items)
+    public void Pickup( Item item)
     {
-        if (!CanAdd(items)) throw new InvalidOperationException();
-        Cart.AddItems(items);
+        if (!CanPickup(item)) throw new InvalidOperationException();
+        item.FreeInWorld = false;
+        Cart.AddItems(item);
     }
 
 
@@ -93,14 +91,18 @@ public class PlayerScript : MonoBehaviour
         return Vector3.Distance(transform.position, t.position) <= PickupRange;
     }
 
-    public void DropItem(MItem item)
+    public void DropItem(Item item)
     {
-
         var dir = Random.onUnitSphere;
         dir.z = Math.Abs(dir.z);
         dir.y = 0;
         dir.Normalize();
         var pos = dudeChild.TransformPoint(dir * 2);
-        Instantiate(ItemPrefab, pos, Quaternion.identity);
+
+        item.transform.parent = null;
+        item.transform.position = pos;
+        item.FreeInWorld = true;
+        item.gameObject.SetActive(true);
+
     }
 }

@@ -1,5 +1,4 @@
 ﻿using System;
-using Assets.Model;
 using Assets.Scripts;
 using UnityEngine;
 using System.Collections;
@@ -11,13 +10,13 @@ public class CartScript : MonoBehaviour
 
     //TODO: persist
     private CartItemScript[] slots;
-    private MItem[] items;
+    private Item[] items;
 
     // Use this for initialization
     void Start()
     {
         slots = transform.GetComponentsInChildren<CartItemScript>();
-        items = new MItem[slots.Length];
+        items = new Item[slots.Length];
         UpdateSlots();
     }
 
@@ -32,7 +31,11 @@ public class CartScript : MonoBehaviour
         for (int i = 0; i < slots.Length; i++)
         {
             var item = items[i];
+
             var slot = slots[i];
+            slot.GetComponent<MeshRenderer>().enabled = false;
+
+            foreach (var c in slot.transform.GetChildren()) Destroy(c.gameObject);
 
             if (item == null)
             {
@@ -41,26 +44,36 @@ public class CartScript : MonoBehaviour
             }
 
             slot.gameObject.SetActive(true);
+
+            item.gameObject.SetActive(false);
+            var model = Instantiate(item.GetModel());
+            model.transform.SetParent(slot.transform);
+            model.transform.localPosition = new Vector3();
+            model.transform.localRotation = Quaternion.identity;
+            
+            /*item.transform.parent = slot.transform;
+            item.transform.localPosition = new Vector3();
+            item.transform.localRotation = Quaternion.identity;*/
         }
     }
 
-    public bool CanAdd(params MItem[] newItems)
+    public bool CanAdd(params Item[] newItems)
     {
         /*if (items.Length == 0) return true;
         if (items.Length > 1) throw new NotImplementedException("Multiple add not yet supported");
         return slots.Any(s => !s.IsFull());*/
         return items.Count(i => i == null) >= newItems.Length;
     }
-    public void AddItems(params MItem[] newItems)
+    public void AddItems(params Item[] newItems)
     {
         if (!CanAdd(newItems)) throw new InvalidOperationException();
 
-        foreach (var mItem in newItems)
+        foreach (var Item in newItems)
         {
             for (int i = 0; i < items.Length; i++)
             {
                 if (items[i] != null) continue;
-                items[i] = mItem;
+                items[i] = Item;
                 break;
             }
         }
@@ -78,7 +91,7 @@ public class CartScript : MonoBehaviour
     /*public class Slot
     {
         public Transform RootTransform;
-        public MItemType ItemType;
+        public ItemType ItemType;
         public int Count { get; set; }
         public int Max { get; private set; }
 
@@ -100,9 +113,9 @@ public class CartScript : MonoBehaviour
         }
     }*/
 
-    public MItem TakeItem(CartItemScript cartItemScript)
+    public Item TakeItem(CartItemScript cartItemScript)
     {
-        var i = Array.IndexOf(slots,cartItemScript);
+        var i = Array.IndexOf(slots, cartItemScript);
         if (items[i] == null) throw new InvalidOperationException();
         var ret = items[i];
         items[i] = null;

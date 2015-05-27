@@ -17,5 +17,15 @@ public class Windmill : MonoBehaviour
     void Update()
     {
         Rotor.transform.rotation *= Quaternion.AngleAxis(TurnSpeed, new Vector3(1, 0, 0));
+        
     }
+
+
+    void OnTriggerEnter(Collider other)
+    {
+        if (!other.gameObject.GetComponent<Item>()) return;
+
+        Destroy(other.gameObject);
+    }
+
 }

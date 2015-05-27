@@ -1,9 +1,11 @@
-﻿using Assets.Model;
-using Assets.Scripts;
+﻿using Assets.Scripts;
 using UnityEngine;
 using System.Collections;
 
-public class CropFullScript : MonoBehaviour {
+public class CropFullScript : MonoBehaviour
+{
+    public Item ItemPrefab;
+
 
 	// Use this for initialization
 	void Start () {
@@ -21,12 +23,12 @@ public class CropFullScript : MonoBehaviour {
 
         var p = LocalGameService.Get.Player;
 
-        var item = new MItem(MItemType.Wheat);
+        var item = Instantiate(ItemPrefab.gameObject).GetComponent<Item>();
 
-        if (!p.CanAdd(item)) return;
+        if (!p.CanPickup(item)) return;
         if (!p.inPickupRange(transform)) return;
 
-        p.AddItems(item);
+        p.Pickup(item);
 
         transform.GetComponentInParent<CropScript>().GrowthPercentage = 0;
     }

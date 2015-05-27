@@ -6,7 +6,10 @@ namespace Assets.Scripts
     {
 
 
-
+        public void Start()
+        {
+                
+        }
 
         public void OnMouseUp()
         {
