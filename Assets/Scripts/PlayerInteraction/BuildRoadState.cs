@@ -6,7 +6,7 @@ namespace Assets.Scripts.Transportation
 {
     public class BuildRoadState : BaseState
     {
-        private readonly ConnectorScript startConnector;
+        private ConnectorScript startConnector;
         private ConnectorScript endConnector;
         private RoadScript activeRoad;
 
