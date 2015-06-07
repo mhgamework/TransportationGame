@@ -38,12 +38,13 @@ public class PlayerScript : MonoBehaviour
 
     void OnDrawGizmos()
     {
-        
+
     }
 
     private void moveToTarget()
     {
         if (moveTarget == null) return;
+        moveTarget -= new Vector3(0, moveTarget.Value.y, 0);
 
         var diff = moveTarget.Value - transform.position;
 
@@ -78,7 +79,7 @@ public class PlayerScript : MonoBehaviour
         if (Cart == null) return false;
         return Cart.CanAdd(item);
     }
-    public void Pickup( Item item)
+    public void Pickup(Item item)
     {
         if (!CanPickup(item)) throw new InvalidOperationException();
         item.FreeInWorld = false;

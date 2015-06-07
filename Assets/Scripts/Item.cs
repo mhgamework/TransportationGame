@@ -7,6 +7,7 @@ using Random = UnityEngine.Random;
 
 public class Item : MonoBehaviour
 {
+    public string ItemTypeStringID;
     public bool FreeInWorld;
 
     // Use this for initialization
@@ -59,4 +60,8 @@ public class Item : MonoBehaviour
         return transform.FindChild("Model").gameObject;
     }
 
+    public bool HasSameType(Item item)
+    {
+        return ItemTypeStringID == item.ItemTypeStringID;
+    }
 }
