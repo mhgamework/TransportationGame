@@ -26,10 +26,14 @@ public class CropFullScript : MonoBehaviour
         var p = LocalGameService.Get.Player;
 
         var item = Instantiate(ItemPrefab.gameObject).GetComponent<Item>();
+        item.gameObject.SetActive(false);
 
         if (!p.CanPickup(item)) return;
+        DestroyImmediate(item.gameObject);
         p.moveInPickupRange(transform, () =>
         {
+            item = Instantiate(ItemPrefab.gameObject).GetComponent<Item>();
+
             p.Pickup(item);
 
             transform.GetComponentInParent<CropScript>().GrowthPercentage = 0;

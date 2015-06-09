@@ -38,7 +38,6 @@ public class Item : MonoBehaviour
     void OnMouseUp()
     {
         if (!FreeInWorld) return;
-        Debug.Log("Click!");
         if (!Input.GetMouseButtonUp(0)) return;
 
         var p = LocalGameService.Get.Player;
