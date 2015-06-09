@@ -2,6 +2,7 @@
 using UnityEngine;
 using System.Collections;
 using System.Linq;
+using Assets.Scripts;
 
 public class VillageScript : MonoBehaviour
 {
@@ -11,6 +12,7 @@ public class VillageScript : MonoBehaviour
     public ItemCollectorScript ItemCollector;
     public Material HouseEmptyMaterial;
     public Material HouseFullMaterial;
+    private int housesProvided;
 
     // Use this for initialization
     void Start()
@@ -33,38 +35,44 @@ public class VillageScript : MonoBehaviour
     {
         while (this != null)
         {
+            yield return new WaitForFixedUpdate();
+
             var woodItem = ItemCollector.GetItems().FirstOrDefault(i => i.HasSameType(WoodItemPrefab));
             var flourItem = ItemCollector.GetItems().FirstOrDefault(i => i.HasSameType(FlourItemPrefab));
-            if (woodItem != null && flourItem != null)
+            if (woodItem == null || flourItem == null)
+                continue;
+            bool itemsDestroyed = false;
+            for (int i = 0; i < 4; i++)
             {
-                for (int i = 0; i < HousesParent.transform.childCount; i++)
+                var house = getEmptyHouses().FirstOrDefault();
+                if (house == null) break;
+                if (!itemsDestroyed)
                 {
-                    var house = HousesParent.transform.GetChild(i);
-                    if (house.GetComponent<MeshRenderer>().sharedMaterial != HouseEmptyMaterial) continue;
-
                     Destroy(woodItem.gameObject);
                     Destroy(flourItem.gameObject);
-
-                    StartCoroutine(peopleLiveInHouse(house).GetEnumerator());
-                    break;
-
+                    itemsDestroyed = true;
                 }
+                house.GetComponent<MeshRenderer>().material = HouseFullMaterial;
+                housesProvided++;
+                yield return new WaitForSeconds(1);
             }
+          
 
-
-
-            yield return new WaitForSeconds(1);
         }
 
 
     }
 
-    IEnumerable<YieldInstruction> peopleLiveInHouse(Transform house)
+    private IEnumerable<Transform> getEmptyHouses()
     {
-        house.GetComponent<MeshRenderer>().material = HouseFullMaterial;
-        yield return new WaitForSeconds(5);
-        house.GetComponent<MeshRenderer>().material = HouseEmptyMaterial;
+        return
+            HousesParent.transform.GetChildren()
+                        .Where(c => c.GetComponent<MeshRenderer>().sharedMaterial == HouseEmptyMaterial);
+    }
 
+    public bool IsVillageProvided()
+    {
+        return HousesParent.transform.childCount <= housesProvided;
     }
 
 }

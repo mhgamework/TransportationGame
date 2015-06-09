@@ -7,15 +7,17 @@ public class CropFullScript : MonoBehaviour
     public Item ItemPrefab;
 
 
-	// Use this for initialization
-	void Start () {
-	
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
+    // Use this for initialization
+    void Start()
+    {
+
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+
+    }
 
     void OnMouseUp()
     {
@@ -26,10 +28,13 @@ public class CropFullScript : MonoBehaviour
         var item = Instantiate(ItemPrefab.gameObject).GetComponent<Item>();
 
         if (!p.CanPickup(item)) return;
-        if (!p.inPickupRange(transform)) return;
+        p.moveInPickupRange(transform, () =>
+        {
+            p.Pickup(item);
 
-        p.Pickup(item);
+            transform.GetComponentInParent<CropScript>().GrowthPercentage = 0;
+        });
 
-        transform.GetComponentInParent<CropScript>().GrowthPercentage = 0;
+
     }
 }

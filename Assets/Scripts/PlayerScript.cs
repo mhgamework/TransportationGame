@@ -15,6 +15,7 @@ public class PlayerScript : MonoBehaviour
 
     private Transform modelChild;
     private Transform dudeChild;
+    private Action onArrivedAtMoveTarget;
 
     // Use this for initialization
     void Start()
@@ -27,7 +28,7 @@ public class PlayerScript : MonoBehaviour
     void Update()
     {
         if (Input.GetMouseButtonDown(1))
-            tryMoveTo();
+            tryMoveToPositionTargetedByMouse();
 
         moveToTarget();
 
@@ -52,6 +53,8 @@ public class PlayerScript : MonoBehaviour
         {
             transform.position = moveTarget.Value;
             moveTarget = null;
+            if (onArrivedAtMoveTarget != null) onArrivedAtMoveTarget();
+            onArrivedAtMoveTarget = null;
             return;
         }
 
@@ -64,14 +67,24 @@ public class PlayerScript : MonoBehaviour
 
     }
 
-    private void tryMoveTo()
+    private void tryMoveToPositionTargetedByMouse()
     {
         var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
         Physics.Raycast(ray, out hit);
-        moveTarget = hit.point;
+        moveTo(hit.point);
     }
 
+    private void moveTo(Vector3 position)
+    {
+        moveTarget = position;
+        onArrivedAtMoveTarget = null;
+    }
+    private void moveTo(Vector3 position, Action onArrive)
+    {
+        moveTarget = position;
+        onArrivedAtMoveTarget = onArrive;
+    }
 
 
     public bool CanPickup(Item item)
@@ -83,10 +96,29 @@ public class PlayerScript : MonoBehaviour
     {
         if (!CanPickup(item)) throw new InvalidOperationException();
         item.FreeInWorld = false;
+        item.GetComponent<HighlightScript>().HideHighlight();// HACK
+
         Cart.AddItems(item);
     }
 
 
+    /// <summary>
+    /// Moves in pickup range and executes action, if already in range executes action
+    /// </summary>
+    /// <param name="t"></param>
+    /// <param name="onArrive"></param>
+    public void moveInPickupRange(Transform t, Action onArrive)
+    {
+        if (inPickupRange(t))
+        {
+            onArrive();
+            return;
+        }
+
+        var diff = t.position - transform.position;
+        diff = diff.normalized * (diff.magnitude - PickupRange + 0.5f);
+        moveTo(transform.position + diff, onArrive);
+    }
     public bool inPickupRange(Transform t)
     {
         return Vector3.Distance(transform.position, t.position) <= PickupRange;
@@ -94,16 +126,18 @@ public class PlayerScript : MonoBehaviour
 
     public void DropItem(Item item)
     {
-        var dir = Random.onUnitSphere;
-        dir.z = Math.Abs(dir.z);
-        dir.y = 0;
-        dir.Normalize();
-        var pos = dudeChild.TransformPoint(dir * 2);
+
+        var dir = new Vector3();
+        dir.z = 2f;
+        dir.x = Random.Range(-0.4f, 0.4f);
+        var pos = dudeChild.TransformPoint(dir);
 
         item.transform.parent = null;
         item.transform.position = pos;
         item.FreeInWorld = true;
         item.gameObject.SetActive(true);
+
+        item.GetComponent<HighlightScript>().HideHighlight();// HACK
 
     }
 }

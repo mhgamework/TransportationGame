@@ -6733,7 +6733,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   GrowthPercentage: 1
-  GrowthSpeed: .100000001
+  GrowthSpeed: .0299999993
   GrowthLevels:
   - .200000003
   - .400000006

@@ -16,7 +16,8 @@ public class Item : MonoBehaviour
 
     }
 
-    void OnEnable()    {
+    void OnEnable()
+    {
         StartCoroutine(randomizePlayback().GetEnumerator());
 
     }
@@ -41,9 +42,24 @@ public class Item : MonoBehaviour
         if (!Input.GetMouseButtonUp(0)) return;
 
         var p = LocalGameService.Get.Player;
-        if (!p.CanPickup(GetItem())) return;
 
-        if (!p.inPickupRange(transform)) return;
+        if (!p.inPickupRange(transform))
+        {
+            p.moveInPickupRange(GetItem().transform, () => tryPickup());
+            return;
+        }
+
+        tryPickup();
+    }
+
+    private void tryPickup()
+    {
+        var p = LocalGameService.Get.Player;
+
+        if (!p.CanPickup(GetItem()))
+        {
+            return;
+        }
 
         p.Pickup(GetItem());
     }
