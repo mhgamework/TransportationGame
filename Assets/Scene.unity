@@ -214,7 +214,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 54319794}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: -1.39999998}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1030107841}
@@ -832,7 +832,7 @@ MonoBehaviour:
     m_LineSpacing: 1
   m_Text: 'Provide all towns with resources to complete the mission.
 
-    Each town requires 3 flour and 3 wood per house
+    Each town requires 3 flour and 3 wood
 
 
     Right click to move around
@@ -7253,6 +7253,22 @@ Prefab:
     - target: {fileID: 465376, guid: d03521eecf03c1c478b5cb06124dc7db, type: 2}
       propertyPath: m_RootOrder
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 465378, guid: d03521eecf03c1c478b5cb06124dc7db, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: -.939999998
+      objectReference: {fileID: 0}
+    - target: {fileID: 432474, guid: d03521eecf03c1c478b5cb06124dc7db, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: .0399999991
+      objectReference: {fileID: 0}
+    - target: {fileID: 432474, guid: d03521eecf03c1c478b5cb06124dc7db, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: .100000001
+      objectReference: {fileID: 0}
+    - target: {fileID: 432474, guid: d03521eecf03c1c478b5cb06124dc7db, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: -1.35000002
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: d03521eecf03c1c478b5cb06124dc7db, type: 2}
