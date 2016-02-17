@@ -6,14 +6,14 @@ namespace Assets.Scripts.Transportation
 {
     public class BuildRoadState : BaseState
     {
-        private ConnectorScript startConnector;
+        //private ConnectorScript startConnector;
         private ConnectorScript endConnector;
         private RoadScript activeRoad;
 
 
         public BuildRoadState(ConnectorScript startConnector, PlayerInteractionScript ps)
         {
-            this.startConnector = startConnector;
+            //this.startConnector = startConnector;
             endConnector = GameObject.Instantiate(ps.ConnectorPrefab);
             activeRoad = GameObject.Instantiate(ps.RoadPrefab);
             activeRoad.EndpointA = startConnector;

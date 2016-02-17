@@ -8,6 +8,21 @@ namespace Assets.Scripts.Transportation
     {
         protected override IEnumerable<YieldInstruction> Run(PlayerInteractionScript ps)
         {
+            if (Input.GetKeyDown(KeyCode.Alpha1))
+            {
+                // Set tower
+                var hits = ps.raycastMouseClick();
+                var groundPlane = hits.FirstOrDefault(n => n.collider.GetComponentInParent<GroundPlaneScript>() != null);
+                if (groundPlane.collider != null)
+                {
+                    var tower =Object.Instantiate(ps.TowerPrefab);
+                    tower.transform.position = groundPlane.point;
+                }
+
+
+
+            }
+
             if (Input.GetMouseButtonUp(0))
             {
                 var hits = ps.raycastMouseClick();

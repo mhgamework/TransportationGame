@@ -11,6 +11,9 @@ namespace Assets.Scripts.Transportation
         public Camera PlayerCamera;
         private Coroutine stateRoutine;
 
+
+        public TowerScript TowerPrefab;
+
         public void OnEnable()
         {
             if (!RoadPrefab || !PlayerCamera || !ConnectorPrefab) throw new InvalidOperationException();
